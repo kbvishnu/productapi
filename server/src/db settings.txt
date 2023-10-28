@@ -1,0 +1,51 @@
+db.createUser(
+{
+  user: "Product_DBUser",
+  pwd: "Product_DBPassword",
+  roles:[{role:"readWrite",db:"Product"},
+	 {role:"dbAdmin", db:"Product"}],
+}
+);
+
+
+db.createCollection("products", {validator: 
+{
+       $jsonSchema: {
+           bsonType: "object",
+           required: ["name", "shortDescription", "detailedDescription","category","startingPrice","bidEndDate"],
+           additionalProperties: false,
+           properties: {
+              _id: {},
+               name: {
+                   bsonType: "string",
+                   description: "'name' is required and is a string",
+               },
+               shortDescription: {
+                   bsonType: "string",
+                   description: "'shortDescription' is required and is a string",
+                   
+               },
+               detailedDescription: {
+                bsonType: "string",
+                description: "'detailedDescription' is required and is a string",
+               
+               },
+               category: {
+                   bsonType: "string",
+                   description: "'category' is required and is one of 'junior', 'mid', or 'senior'",
+                   enum: ["junior", "mid", "senior"],
+               },
+               startingPrice: {
+                bsonType: "int",
+                description: "'startingPrice' is required and is a string",
+               
+               },
+               bidEndDate: {
+                bsonType: "date",
+                description: "'bidEndDate' is required and is a string",
+               
+               }
+           },
+       },
+   }
+});
